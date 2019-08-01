@@ -2,34 +2,34 @@ import request from '@/util/request'
 
 const group_name = 'task';
 export default {
-  getUnaccomplished(page, pageSize) {
+  getUnaccomplished(userid, page, pageSize) {
     return request({
       url: `/${group_name}/unaccomplished/`,
       method: 'post',
       data: {
-        userid: this.$store.getters.getUserId,
+        userid: userid,
         page: page,
         page_size: pageSize
       }
     })
   },
-  getAccomplished(page, pageSize) {
+  getAccomplished(userid, page, pageSize) {
     return request({
       url: `/${group_name}/accomplished/`,
       method: 'post',
       data: {
-        userid: this.$store.getters.getUserId,
+        userid: userid,
         page: page,
         page_size: pageSize
       }
     })
   },
-  getUnaccomplishedid(name) {
+  getUnaccomplishedid(userid, name) {
     return request({
       url: `/${group_name}/unaccomplishedid/`,
-      method: 'get',
+      method: 'post',
       data: {
-        userid: this.$store.getters.getUserId,
+        userid: userid,
         name: name
       }
     })

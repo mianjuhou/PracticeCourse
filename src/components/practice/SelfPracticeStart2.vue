@@ -189,6 +189,7 @@
         examApi.getExamDetail(this.userId, this.searchValue)
           .then(response => {
             var ret = response.data;
+            this.$router.push({name: "SelfPracticeDetail", params: {question_id: ret.number[0]}});
           })
           .catch(error => {
             console.log(error);

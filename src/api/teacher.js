@@ -12,23 +12,24 @@ export default {
       }
     })
   },
-  getHomework(name) {
+  getHomework(userid, username, name, teacher) {
     return request({
       url: `/${group_name}/homework/`,
       method: 'post',
       data: {
-        userid: this.$store.getters.getUserId,
-        username: this.$store.getters.getUserName,
-        name: name
+        userid: userid,
+        username: username,
+        name: name,
+        teacher: teacher
       }
     })
   },
-  getExam(school, grade, clazz, date, num) {
+  getExam(username, school, grade, clazz, date, num) {
     return request({
       url: `/${group_name}/exam/`,
       method: 'post',
       data: {
-        username: this.$store.getters.getUserName,
+        username: username,
         school: school,
         grade: grade,
         clazz: clazz,
@@ -37,14 +38,24 @@ export default {
       }
     })
   },
-  getDistribution(name) {
+  getDistribution(userid, username, name) {
     return request({
       url: `/${group_name}/distribution/`,
       method: 'post',
       data: {
-        userid: this.$store.getters.getUserId,
-        username: this.$store.getters.getUserName,
+        userid: userid,
+        username: username,
         name: name
+      }
+    })
+  },
+  getHistory(name, teacher) {
+    return request({
+      url: `/${group_name}/history/`,
+      method: 'post',
+      data: {
+        name: name,
+        teacher: teacher
       }
     })
   },

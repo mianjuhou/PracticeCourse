@@ -148,7 +148,7 @@
     },
     created() {
       this.questionsId = this.$route.params.question_id;
-      console.log(JSON.stringify(this.questionsId));
+      console.log(JSON.stringify("questionsId:" + this.questionsId));
       if (this.questionsId != undefined && this.questionsId != null && this.questionsId.length != 0) {
         this.loadData();
       }

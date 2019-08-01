@@ -17,8 +17,8 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[10, 20, 30, 40]"
-          :page-size="10"
+          :page-sizes="[5, 10, 20, 30]"
+          :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="totlalSize">
         </el-pagination>
@@ -35,19 +35,25 @@
     data() {
       return {
         currentPage: 1,
+        pageSize: 10,
         datas: [],
         totlalSize: 0,
+        userId: ''
       }
     },
     created() {
+      this.userId = this.$store.getters.getUserId;
       this.getRemoteData();
     },
     methods: {
       getRemoteData() {
-        taskApi.getAccomplished(8, this.currentPage)
+        taskApi.getAccomplished(this.userId, this.currentPage,this.pageSize)
           .then(response => {
             var ret = response.data;
             this.datas = ret.object;
+            if (this.datas==undefined){
+              this.$message.info(ret.msg);
+            }
             this.totlalSize = ret.page;
           })
           .catch(error => {
@@ -55,11 +61,12 @@
           })
       },
       handleCurrentChange(val) {
-          this.currentPage = val;
-          this.getRemoteData();
+        this.currentPage = val;
+        this.getRemoteData();
       },
       handleSizeChange(val) {
-
+        this.pageSize = val;
+        this.getRemoteData();
       },
       toDetail() {
         this.$router.push({name: 'CompletedDetail'})

@@ -10,6 +10,11 @@ const store = new Vuex.Store({
     userid: '28',
     grade: '七年级上',
     username: 'user16',
+    tusername:'user10',
+    tschool:'中关村二小',
+    tgrade:'1年级',
+    tclazz:'2班',
+    teacher:'李老师',
   },
   getters: {
     getStudentId: function (state) {
