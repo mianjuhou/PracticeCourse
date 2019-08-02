@@ -107,7 +107,7 @@ export default new Router({
                   component: CompletedDetail,
                   children: [
                     {
-                      path: '',
+                      path: 'SelfPracticeDetail2',
                       name: 'SelfPracticeDetail2',
                       component: SelfPracticeDetail,
                     }

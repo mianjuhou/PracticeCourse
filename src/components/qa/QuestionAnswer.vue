@@ -7,7 +7,7 @@
           <div>
             <img src="../../assets/logo.png" height="50" width="50"/>
           </div>
-          <div style="background-color: #BCE982;padding: 20px;width: 400px;color: white;">
+          <div style="background-color: #bce982;padding: 20px;width: 400px;color: white;">
             {{item.question}}
           </div>
         </div>
@@ -15,9 +15,10 @@
           <div>
             <img src="../../assets/logo.png" height="50" width="50"/>
           </div>
-          <div style="background-color: #E3C0A0;padding: 20px;width: 400px;color: white;">
+          <div style="background-color: #e3c0a0;padding: 20px;width: 400px;color: white;">
             {{item.answer}}
           </div>
+          <div style="color: #95ff86;"></div>
         </div>
       </div>
     </div>

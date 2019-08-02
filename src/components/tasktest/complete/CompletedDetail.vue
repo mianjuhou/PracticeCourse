@@ -11,7 +11,7 @@
             <span><i class="el-icon-success success_icon_style"></i>阅读理解共4小题，正确3道，再努力一点就完美了；</span>
           </div>
           <div style="flex: 1;display: flex;align-items: center;padding-left: 30px;padding-top: 20px;">
-            <span><i class="el-icon-success success_icon_style" ></i>单项选择共5小题，正确3道，XXX题型需多练习，还有进步的空间；</span>
+            <span><i class="el-icon-success success_icon_style"></i>单项选择共5小题，正确3道，XXX题型需多练习，还有进步的空间；</span>
           </div>
         </el-main>
         <div style="width: 1px;background-color: #7B93A7;margin-top: 20px;"></div>
@@ -30,20 +30,37 @@
 </template>
 
 <script>
+  import examApi from '@/api/exam';
+
   export default {
     name: "CompletedDetail",
-    created() {
-      this.$router.push({name:''});
+    data() {
+      return {
+        name: '',
+      }
     },
-    methods:{
-
+    created() {
+      // this.$router.push({name:''});
+      this.name = this.$route.params.name;
+    },
+    methods: {
+      loadData() {
+        examApi.getExamDetail(this.$store.state.userid, this.name)
+          .then(response => {
+            var ret = response.data;
+            var titles = ret.number[0];
+            this.$router.push({name: 'SelfPracticeDetail2', params: {question_id: titles}});
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     }
-
   }
 </script>
 
 <style scoped>
-  .success_icon_style{
+  .success_icon_style {
     color: #2D98FF;
     margin-right: 10px;
     font-size: 20px;

@@ -5,10 +5,10 @@
         <div v-for="item of datas" class="card_style">
           <el-row type="flex" justify="center">
             <el-col style="display: flex;flex-direction: row;align-items: center;vertical-align: center;">
-              <span style="color: #1C1A1D;margin-left: 30%;">{{item.name}}</span>
+              <span style="color: #1C1A1D;margin-left: 30%;">{{item.time}} {{item.name}}</span>
               <span style="color: #7B93A7;font-size: 12px;margin-left: 30px;">发布：{{item.tname}}</span>
             </el-col>
-            <el-button @click="toDetail(item)" style="margin-right: 30px;" size="mini" type="primary" plain>继续完成作答</el-button>
+            <el-button @click="toDetail(item.name)" style="margin-right: 30px;" size="mini" type="primary" plain>继续完成作答</el-button>
           </el-row>
         </div>
       </el-main>

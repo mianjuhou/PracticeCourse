@@ -2,30 +2,6 @@
   <div style="flex-grow: 1;display: flex;background-color: #E1E7Eb">
     <el-container> <!--style="flex: 1;"-->
       <el-container> <!--style="display: flex;"-->
-        <!--        <div style="flex: 1;display: flex;">-->
-        <!--          <div style="flex: 9;display: flex;padding: 20px 10px 20px 20px;">-->
-        <!--            <div style="background-color: white;flex: 1;display: flex;flex-direction: column;">-->
-        <!--              <div style="flex-shrink: 0;">-->
-        <!--                <div class="title">-->
-        <!--                  <span><i class="el-icon-s-opportunity"></i>查看自己各科目优劣所在</span>-->
-        <!--                </div>-->
-        <!--                <div class="line"></div>-->
-        <!--              </div>-->
-        <!--              <div id="radar" style="flex-grow: 1;"></div>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--          <div style="flex: 16;padding: 20px 20px 20px 10px;display: flex;">-->
-        <!--            <div style="background-color: white;flex: 1;display: flex;flex-direction: column;">-->
-        <!--              <div style="flex-shrink: 0;">-->
-        <!--                <div class="title">-->
-        <!--                  <span><i class="el-icon-s-opportunity"></i>查看自己各科目优劣所在</span>-->
-        <!--                </div>-->
-        <!--                <div class="line"></div>-->
-        <!--              </div>-->
-        <!--              <div id="line" style="flex-grow: 1;"></div>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
         <el-aside width="38%" style="display: flex;padding: 20px 10px 20px 20px;">
           <div style="background-color: white;flex: 1;display: flex;flex-direction: column;">
             <div style="flex-shrink: 0;">

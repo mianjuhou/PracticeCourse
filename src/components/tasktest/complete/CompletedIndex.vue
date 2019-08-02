@@ -5,10 +5,10 @@
         <div v-for="item of datas" class="card_style">
           <el-row type="flex" justify="center">
             <el-col style="display: flex;flex-direction: row;align-items: center;">
-              <span style="color: #1C1A1D;margin-left: 30%;">{{item.time}} {{item.title}}</span>
-              <span style="color: #7B93A7;font-size: 12px;margin-left: 30px;">发布：{{item.publish}}</span>
+              <span style="color: #1C1A1D;margin-left: 30%;">{{item.time}} {{item.name}}</span>
+              <span style="color: #7B93A7;font-size: 12px;margin-left: 30px;">发布：{{item.tname}}</span>
             </el-col>
-            <el-button @click="toDetail()" style="margin-right: 30px;" size="mini" type="primary" plain>查看作答详情</el-button>
+            <el-button @click="toDetail(item.name)" style="margin-right: 30px;" size="mini" type="primary" plain>查看作答详情</el-button>
           </el-row>
         </div>
       </el-main>
@@ -47,12 +47,16 @@
     },
     methods: {
       getRemoteData() {
-        taskApi.getAccomplished(this.userId, this.currentPage,this.pageSize)
+        taskApi.getAccomplished(this.userId, this.currentPage, this.pageSize)
           .then(response => {
             var ret = response.data;
             this.datas = ret.object;
-            if (this.datas==undefined){
-              this.$message.info(ret.msg);
+            if (this.datas == undefined) {
+              this.$message({
+                showClose: true,
+                message: ret.msg,
+                duration: 1000
+              });
             }
             this.totlalSize = ret.page;
           })
@@ -68,8 +72,8 @@
         this.pageSize = val;
         this.getRemoteData();
       },
-      toDetail() {
-        this.$router.push({name: 'CompletedDetail'})
+      toDetail(name) {
+        this.$router.push({name: 'CompletedDetail', params: {name: name}});
       }
     }
   }
