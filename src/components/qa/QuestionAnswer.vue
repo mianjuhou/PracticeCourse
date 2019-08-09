@@ -5,7 +5,7 @@
       <div v-for="(item,index) of datas" style="width: 100%;">
         <div style="width: 50%;display: flex;">
           <div>
-            <img src="../../assets/logo.png" height="50" width="50"/>
+            <img src="../../assets/asker.png" height="50" width="50" />
           </div>
           <div style="background-color: #bce982;padding: 20px;width: 400px;color: white;">
             {{item.question}}
@@ -13,7 +13,7 @@
         </div>
         <div style="width: 100%;display: flex;flex-direction: row-reverse;">
           <div>
-            <img src="../../assets/logo.png" height="50" width="50"/>
+            <img src="../../assets/answer.png" height="50" width="50"/>
           </div>
           <div style="background-color: #e3c0a0;padding: 20px;width: 400px;color: white;">
             {{item.answer}}

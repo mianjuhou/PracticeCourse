@@ -15,8 +15,7 @@ export default {
       method: 'post',
       data: pojo
     })
-  }
-  ,
+  },
   getOptionalContent(id) {
     return request({
       url: `/${group_name}/optionalContent`,

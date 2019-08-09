@@ -1,7 +1,7 @@
 <template>
-  <div style="width: 100%;height: 100%;display: flex;">
+  <div style="width: 100%;height: 100%;display: flex;background-color: #E1E7Eb;">
     <div style="width: 50%;display: flex;flex-direction: column;">
-      <div style="background-color: white;height: 30%;display: flex;flex-direction: column;">
+      <div style="background-color: white;height: 30%;display: flex;flex-direction: column;margin: 10px;">
         <div style="flex-shrink: 0;">
           <div class="title">
             <span><i class="el-icon-s-opportunity" style="color: #1782D2;"></i>看看班级近期成绩波动情况</span>
@@ -10,12 +10,12 @@
         </div>
         <div id="line" style="flex-grow: 1;"></div>
       </div>
-      <div style="height: 30%;display: flex;flex-direction: column;">
-        <div style="flex-shrink: 0;"><i class="el-icon-sunny"></i>看看上次考试分数分布情况</div>
+      <div style="height: 30%;display: flex;flex-direction: column;background-color: white;margin-left: 10px;margin-right: 10px;">
+        <div style="flex-shrink: 0;"><i class="el-icon-s-opportunity"></i>看看上次考试分数分布情况</div>
         <div id="bar" style="flex-grow: 1;"></div>
       </div>
       <div style="height: 40%;display: flex;">
-        <div style="background-color: white;flex: 1;display: flex;flex-direction: column;">
+        <div style="background-color: white;flex: 1;display: flex;flex-direction: column;margin: 10px;">
           <div style="flex-shrink: 0;">
             <div class="title">
               <span><i class="el-icon-s-opportunity" style="color: #1782D2;"></i>查看自己各科目优劣所在</span>
@@ -27,17 +27,22 @@
       </div>
     </div>
     <div style="width: 50%;">
-      <div style="height: 100%;display: flex;flex-direction: column;">
+      <div style="height: 100%;display: flex;flex-direction: column;padding: 10px;">
         <div style="display: flex;">
-          <el-button type="success" :class="rightIndex==0?'red_color':'white_color'" @click="rightIndex=0">布置作业</el-button>
-          <el-button type="success" :class="rightIndex==1?'red_color':'white_color'" @click="rightIndex=1">查看历史作业完成情况</el-button>
+          <el-button size="mini" type="success" :class="rightIndex==0?'red_color':'white_color'" @click="rightIndex=0">布置作业</el-button>
+          <el-button size="mini" type="success" :class="rightIndex==1||rightIndex==2?'red_color':'white_color'" @click="rightIndex=1">
+            查看历史作业完成情况
+          </el-button>
         </div>
-        <div>
-          <div style="flex: 1;background-color: white;display: flex;" v-if="rightIndex==0">
+        <div style="margin-top: 10px;height: 100%;background-color: white;">
+          <div style="flex: 1;background-color: white;display: flex;padding: 10px;" v-if="rightIndex==0">
             <el-container style="flex: 1;">
               <div style="padding-top: 10px;">
                 <span>要为哪个班级布置作业？</span>
-                <el-select style="width: 300px;" size="mini" v-model="choiceData.clazz">
+                <el-select style="width: 100px;" size="mini" v-model="choiceData.grade" @change="gradeChange">
+                  <el-option v-for="(key,item,index) of clazzData" :value="item" :label="item"></el-option>
+                </el-select>
+                <el-select style="width: 100px;" size="mini" v-model="choiceData.clazz">
                   <el-option v-for="item of options" :value="item" :label="item"></el-option>
                 </el-select>
               </div>
@@ -103,21 +108,23 @@
             </el-container>
           </div>
           <div v-if="rightIndex==1" style="height: 100%;overflow-y: auto;">
-            <div v-for="item of lineX" style="padding: 10px;background-color: #42b983;margin-top: 10px;color: white;"
+            <div v-for="item of histrorys" style="padding: 10px;background-color: #42b983;margin-top: 10px;color: white;"
                  @click="historyDetail(item)">
               {{item}}
             </div>
           </div>
           <div style="height: 100%;overflow-y: auto;" v-if="rightIndex==2">
             <div style="background-color: #31CF9A;display: flex;align-items: center;padding-top: 10px;padding-bottom: 10px;">
-              <div style="color: white;flex-grow: 1;padding-left: 20px;">2019-5-18 英语随堂作业一</div>
-              <el-button style="color: palevioletred;margin-right: 10px;" size="small">查看完成情况</el-button>
+              <div style="color: white;flex-grow: 1;padding-left: 20px;">{{this.studentList.name}}</div>
+              <!--              <el-button style="color: palevioletred;margin-right: 10px;" size="small">查看完成情况</el-button>-->
             </div>
             <div>
               <div>已完成：</div>
-              <div v-for="name of studentList.ac_student_list">{{name}} 查看得分 作文人工批改</div>
+              <div v-for="name of studentList.ac_student_list">{{name}}</div>
+              <div v-if="studentList.ac_student_list.length==0">0</div>
               <div>未完成：</div>
               <div v-for="name of studentList.unac_student_list">{{name}}</div>
+              <div v-if="studentList.unac_student_list.length==0">0</div>
             </div>
           </div>
         </div>
@@ -147,7 +154,7 @@
           name: '',
           teacher: this.$store.state.teacher,
           school: this.$store.state.tschool,
-          grade: this.$store.state.tgrade,
+          grade: '',
           clazz: ''
         },
         pojo: {
@@ -166,22 +173,26 @@
         rightIndex: 0,
         studentList: {},
         homeworkName: '',
-        options: ['一班', '二班', '三班'],
+        options: [],
+        histrorys: [],
+        clazzData: {},
       }
     },
     created() {
       this.loadData();
     },
     methods: {
+      gradeChange(value) {
+        this.options = this.clazzData[value];
+      },
       doSubmit(flag) {
         var date = DateUtil.format(new Date(), "yyyyMMdd");
         this.choiceData.name = date + this.homeworkName;
         if (flag) {
           this.choiceData.info = this.pojo;
         } else {
-          this.choiceData.info = null;
+          delete this.choiceData['info'];
         }
-        console.log(JSON.stringify(this.choiceData));
         teacherApi.getHomework(this.choiceData)
           .then(response => {
             if (200 == response.status) {
@@ -193,9 +204,10 @@
           });
       },
       historyDetail(item) {
-        teacherApi.getHistory(item, this.$store.state.teacher)
+        teacherApi.getHistoryDetail(item, this.$store.state.teacher)
           .then(response => {
             this.studentList = response.data;
+            this.studentList.name = item;
             this.rightIndex = 2;
           })
           .catch(error => {
@@ -211,6 +223,7 @@
       },
       loadData() {
         var date = DateUtil.format(new Date(), "yyyyMMdd");
+        date = parseInt(date);
         teacherApi.getExam(
           this.$store.state.tusername,
           this.$store.state.tschool,
@@ -232,7 +245,7 @@
                 console.log(error);
               });
             var lastExam = this.lineX[this.lineX.length - 1];
-            teacherApi.getDistribution(this.$store.state.userid, this.$store.state.username, lastExam)
+            teacherApi.getDistribution([this.$store.state.userid], this.$store.state.username, lastExam)
               .then(response => {
                 var dret = response.data;
                 this.barData.push(dret.score_less_60);
@@ -261,6 +274,44 @@
             var retAvg = resAvg.data;
             this.avgability = [retAvg['完形填空'], retAvg['阅读理解'], retAvg['单项选择'], retAvg['英汉互译'], retAvg['书面表达']];
             this.drawRadar();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        // teacherApi.getHistoryList(this.$store.state.teacher, 1)
+        //   .then(response => {
+        //     var ret = response.data;
+        //     var list = ret.history_page;
+        //     console.log(JSON.stringify(list));
+        //     this.histrorys = [];
+        //     list.forEach(item => {
+        //       for (var key in item) {
+        //         this.histrorys.push(key);
+        //       }
+        //     });
+        //     console.log(JSON.stringify(histrorys));
+        //   })
+        //   .catch(error => {
+        //     console.log(error);
+        //   });
+        teacherApi.getHistorySearch(this.$store.state.teacher, date)
+          .then(response => {
+            var ret = response.data;
+            var list = ret.exam_list;
+            this.histrorys = [];
+            list.forEach(item => {
+              for (var key in item) {
+                this.histrorys.push(key);
+              }
+            });
+            console.log(JSON.stringify(histrorys));
+          })
+          .catch(error => {
+            this.$message.error(error);
+          });
+        teacherApi.getClazz()
+          .then(response => {
+            this.clazzData = response.data;
           })
           .catch(error => {
             console.log(error);
@@ -381,7 +432,7 @@
                 show: false
               },
               type: 'value',
-              max: 100
+              max: 150
             },
             series: [{
               name: '班级平均',

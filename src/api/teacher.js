@@ -12,16 +12,11 @@ export default {
       }
     })
   },
-  getHomework(userid, username, name, teacher) {
+  getHomework(data) {
     return request({
       url: `/${group_name}/homework/`,
       method: 'post',
-      data: {
-        userid: userid,
-        username: username,
-        name: name,
-        teacher: teacher
-      }
+      data: data
     })
   },
   getExam(username, school, grade, clazz, date, num) {
@@ -38,12 +33,12 @@ export default {
       }
     })
   },
-  getDistribution(userid, username, name) {
+  getDistribution(stulist, username, name) {
     return request({
       url: `/${group_name}/distribution/`,
       method: 'post',
       data: {
-        userid: userid,
+        stulist: stulist,
         username: username,
         name: name
       }
@@ -59,4 +54,51 @@ export default {
       }
     })
   },
+  getHistoryList(teacher, page) {
+    return request({
+      url: `/${group_name}/historylist/`,
+      method: 'post',
+      data: {
+        page: page,
+        teacher: teacher
+      }
+    })
+  },
+  getHistorySearch(teacher,date) {
+    return request({
+      url: `/${group_name}/historysearch/`,
+      method: 'post',
+      data: {
+        teacher: teacher,
+        date: date
+      }
+    })
+  },
+  getHistorySearch2(name,teacher,date) {
+    return request({
+      url: `/${group_name}/historysearch/`,
+      method: 'post',
+      data: {
+        name: name,
+        teacher: teacher,
+        date: date
+      }
+    })
+  },
+  getHistoryDetail(name,teacher) {
+    return request({
+      url: `/${group_name}/historydetail/`,
+      method: 'post',
+      data: {
+        name: name,
+        teacher: teacher
+      }
+    })
+  },
+  getClazz(){
+    return request({
+      url: `/${group_name}/getclazz/`,
+      method: 'get'
+    })
+  }
 }
