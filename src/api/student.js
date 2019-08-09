@@ -56,4 +56,13 @@ export default {
       }
     })
   },
+  getName(userids) {
+    return request({
+      url: `/${group_name}/getname/`,
+      method: 'post',
+      data: {
+        userid: userids,
+      }
+    })
+  },
 }

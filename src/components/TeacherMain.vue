@@ -113,18 +113,18 @@
               {{item}}
             </div>
           </div>
-          <div style="height: 100%;overflow-y: auto;" v-if="rightIndex==2">
+          <div style="height: 100%;overflow-y: auto;padding: 20px;" v-if="rightIndex==2">
             <div style="background-color: #31CF9A;display: flex;align-items: center;padding-top: 10px;padding-bottom: 10px;">
-              <div style="color: white;flex-grow: 1;padding-left: 20px;">{{this.studentList.name}}</div>
-              <!--              <el-button style="color: palevioletred;margin-right: 10px;" size="small">查看完成情况</el-button>-->
+              <div style="color: white;flex-grow: 1;padding-left: 10px;">{{this.studentList.name}}</div>
+              <el-button style="color: palevioletred;margin-right: 10px;" size="small">查看完成情况</el-button>
             </div>
-            <div>
+            <div style="margin-top: 20px;background-color: orange;color: white;font-size: 14px;padding: 10px;">
               <div>已完成：</div>
-              <div v-for="name of studentList.ac_student_list">{{name}}</div>
-              <div v-if="studentList.ac_student_list.length==0">0</div>
-              <div>未完成：</div>
-              <div v-for="name of studentList.unac_student_list">{{name}}</div>
-              <div v-if="studentList.unac_student_list.length==0">0</div>
+              <div v-for="sid of studentList.ac_student_list">{{idName[sid]}} <span>查看得分</span></div>
+              <div v-if="studentList.ac_student_list.length==0">无</div>
+              <div style="margin-top: 10px;">未完成：</div>
+              <div v-for="sid of studentList.unac_student_list">{{idName[sid]}}</div>
+              <div v-if="studentList.unac_student_list.length==0">无</div>
             </div>
           </div>
         </div>
@@ -176,6 +176,7 @@
         options: [],
         histrorys: [],
         clazzData: {},
+        idName: []
       }
     },
     created() {
@@ -205,14 +206,31 @@
       },
       historyDetail(item) {
         teacherApi.getHistoryDetail(item, this.$store.state.teacher)
-          .then(response => {
-            this.studentList = response.data;
-            this.studentList.name = item;
+          .then(tresponse => {
+            var sret = tresponse.data;
+            var idList = [];
+            sret.ac_student_list.forEach(id => {
+              idList.push(id);
+            });
+            sret.unac_student_list.forEach(id => {
+              idList.push(id);
+            });
+            studentApi.getName(idList)
+              .then(sresponse => {
+                this.idName = sresponse.data;
+                this.studentList = sret;
+                this.studentList.name = item;
+              })
+              .catch(error => {
+                console.log(error);
+              });
+
             this.rightIndex = 2;
           })
           .catch(error => {
             this.$message.error(error);
           });
+
       },
       handleTest() {
         this.testFlag = false;
